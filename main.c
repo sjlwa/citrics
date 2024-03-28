@@ -4,28 +4,9 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
 #include <stdbool.h>
-#include <sys/types.h>
-#include "events.h"
-
-#define WIDTH 500
-#define HEIGHT 700
-#define CELL_SIZE WIDTH / 12
-
-
-typedef struct {
-  uint r; uint g; uint b; uint a;
-} RGBColor;
-
-
-RGBColor parse_hex_rgb(int hexrgb) {
-  int r = (hexrgb >> 24) & 0xFF;
-  int g = (hexrgb >> 16) & 0xFF;
-  int b = (hexrgb >> 8) & 0xFF;
-  int a = hexrgb & 0xFF;
-  RGBColor color = {.r=r,.g=g,.b=b,.a=a};
-  return color;
-}
-
+#include "src/events.h"
+#include "src/color.h"
+#include "src/citrics.h"
 
 void draw_rect(SDL_Renderer *renderer) {
   SDL_Rect rect = { .x=CELL_SIZE, .y=CELL_SIZE, .w=CELL_SIZE, .h=CELL_SIZE };
@@ -47,15 +28,16 @@ int main(void) {
                               &window,
                               &renderer);
   
-  bool running = true;
+  
   SDL_Event event;
 
+  Citrics *game = new_game();
 
-  while (running) {
+  while (game->running) {
 
     while (SDL_PollEvent(&event)) {
       if (handle_main_event(&event) == QUIT_GAME) {
-        running = false;
+        game->running = false;
       }
     }
 
@@ -65,6 +47,9 @@ int main(void) {
     draw_rect(renderer);
     SDL_RenderPresent(renderer);
   }
+
+  free_game(game);
+  game = NULL;
 
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
