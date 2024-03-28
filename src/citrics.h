@@ -4,10 +4,6 @@
 #include <stdbool.h>
 #include "figures.h"
 
-#define WIDTH 500
-#define HEIGHT 700
-#define CELL_SIZE WIDTH / 12
-
 typedef struct {
   Figure *current_figure;
   bool running;
@@ -15,5 +11,6 @@ typedef struct {
 
 Citrics *new_game(void);
 void free_game(Citrics *game);
+void draw_game(SDL_Renderer *renderer, Citrics *game);
 
 #endif // CITRICS_H

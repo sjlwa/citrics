@@ -1,6 +1,8 @@
 #ifndef FIGURES_H
 #define FIGURES_H
 
+#include "color.h"
+#include <SDL2/SDL_render.h>
 #include <sys/types.h>
 
 typedef enum {
@@ -41,5 +43,8 @@ void free_figure(Figure *figure);
 Point * new_points_figure_LNormal(void);
 
 void print_figure(Figure *fig);
+
+void draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, RGBColor *color);
+void draw_figure(SDL_Renderer *renderer, Figure *fig);
 
 #endif // FIGURES_H

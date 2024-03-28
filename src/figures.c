@@ -1,8 +1,11 @@
+#include <SDL2/SDL_render.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "figures.h"
+#include "color.h"
+#include "constants.h"
 
 Figure *new_figure(FigureType type) {
   switch (type) {
@@ -98,4 +101,26 @@ Figure *new_figure_ZInverted(void) {
 
 Figure *new_figure_Step(void) {
   return NULL;
+}
+
+
+
+
+void draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, RGBColor *color) {
+  SDL_SetRenderDrawColor(renderer, color->r, color->g, color->b, color->a);
+  SDL_RenderFillRect(renderer, rect);
+}
+
+
+void draw_figure(SDL_Renderer *renderer, Figure *fig) {
+  RGBColor color = parse_hex_rgb(0x333333FF );
+
+  for(int i=0; i<fig->points_length; i++) {
+    Point point = fig->points[i];
+    SDL_Rect rect = {
+      .x=point.x*CELL_SIZE, .y=point.y*CELL_SIZE, .w=CELL_SIZE, .h=CELL_SIZE
+    };
+    draw_rect(renderer, &rect, &color);
+  }
+
 }
