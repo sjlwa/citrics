@@ -3,7 +3,6 @@
 
 #include "color.h"
 #include <SDL2/SDL_render.h>
-#include <sys/types.h>
 
 typedef enum {
   LNormal,
@@ -21,12 +20,13 @@ typedef enum {
 #define FIG_ZNORMAL_SIZE 4
 #define FIG_STEP_SIZE 4
 
-typedef struct { uint x; uint y; } Point;
+typedef struct { int x; int y; } Point;
 
 typedef struct {
   FigureType type;
   uint points_length;
   Point *points;
+  Point center;
 } Figure;
 
 
@@ -46,5 +46,10 @@ void print_figure(Figure *fig);
 
 void draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, RGBColor *color);
 void draw_figure(SDL_Renderer *renderer, Figure *fig);
+
+bool cmp_figures_equal(Figure *fig1, Figure *fig2);
+
+void rotate_point(Point *point, Point *center);
+void rotate_figure(Figure *figure);
 
 #endif // FIGURES_H

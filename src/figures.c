@@ -44,8 +44,8 @@ void print_figure(Figure *fig) {
   printf("\n");
 }
 
-int cmp_points_equal(Point *p1, Point *p2) {
-  return (p1->x == p2->x) || (p1->y == p2->y);
+bool cmp_points_equal(Point *p1, Point *p2) {
+  return (p1->x == p2->x) && (p1->y == p2->y);
 }
 
 
@@ -79,6 +79,7 @@ Figure *new_figure_LNormal(void) {
   figure->points_length = FIG_LNORMAL_SIZE;
   Point *points = new_points_figure_LNormal();
   figure->points = points;
+  figure->center = (Point) { .x=1, .y=1 };
   return figure;
 }
 
@@ -123,4 +124,18 @@ void draw_figure(SDL_Renderer *renderer, Figure *fig) {
     draw_rect(renderer, &rect, &color);
   }
 
+}
+
+void rotate_point(Point *point, Point *center) {
+  int new_x = -(point->y - center->y);
+  int new_y = (point->x - center->x);
+  point->y = center->y + new_y;
+  point->x = center->x + new_x;
+}
+
+
+void rotate_figure(Figure *figure) {
+  for (int i = 0; i<figure->points_length; i++) {
+    rotate_point(&(figure->points[i]), &(figure->center));
+  }
 }

@@ -8,7 +8,6 @@
 #include "src/citrics.h"
 #include "src/constants.h"
 
-
 int main(void) {
 
   SDL_Init(SDL_INIT_VIDEO);
@@ -29,7 +28,7 @@ int main(void) {
   while (game->running) {
 
     while (SDL_PollEvent(&event)) {
-      if (handle_main_event(&event) == QUIT_GAME) {
+      if (handle_main_event(&event, game) == QUIT_GAME) {
         game->running = false;
       }
     }
