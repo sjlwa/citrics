@@ -12,6 +12,7 @@ DONE_EVENT handle_main_event(SDL_Event *event, Citrics *game) {
 
     switch (event->window.event) {
       case SDL_WINDOWEVENT_CLOSE:
+        game->running = false;
         SDL_Log("Window %d closed", event->window.windowID);
         return QUIT_GAME;
       break;

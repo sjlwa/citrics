@@ -12,5 +12,6 @@ typedef struct {
 Citrics *new_game(void);
 void free_game(Citrics *game);
 void draw_game(SDL_Renderer *renderer, Citrics *game);
+void update_game(Citrics *game);
 
 #endif // CITRICS_H

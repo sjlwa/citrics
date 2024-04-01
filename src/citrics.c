@@ -29,3 +29,7 @@ void draw_game(SDL_Renderer *renderer, Citrics *game) {
 
   SDL_RenderPresent(renderer);
 }
+
+void update_game(Citrics *game) {
+  update_figure_fall(game->current_figure);
+}

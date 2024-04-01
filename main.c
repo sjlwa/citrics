@@ -3,6 +3,9 @@
 #include <SDL2/SDL_rect.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <sys/types.h>
 #include <stdbool.h>
 #include "src/events.h"
 #include "src/citrics.h"
@@ -20,7 +23,6 @@ int main(void) {
                               &window,
                               &renderer);
   
-  
   SDL_Event event;
 
   Citrics *game = new_game();
@@ -28,10 +30,10 @@ int main(void) {
   while (game->running) {
 
     while (SDL_PollEvent(&event)) {
-      if (handle_main_event(&event, game) == QUIT_GAME) {
-        game->running = false;
-      }
+      handle_main_event(&event, game);
     }
+
+    update_game(game);
     draw_game(renderer, game);
   }
 

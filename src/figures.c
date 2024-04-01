@@ -39,7 +39,7 @@ void print_figure(Figure *fig) {
   printf("%s size: %d ", figure_type_str(fig->type), fig->points_length);
   for (int i=0; i<fig->points_length; i++) {
     Point point = fig->points[i];
-    printf(" (%d, %d) ", point.x, point.y);
+    printf(" (%f, %f) ", point.x, point.y);
   }
   printf("\n");
 }
@@ -63,9 +63,9 @@ bool cmp_figures_equal(Figure *fig1, Figure *fig2) {
 Point * new_points_figure_LNormal(void) {
   Point * points = malloc(sizeof(Point) * FIG_LNORMAL_SIZE);
   Point p0 = { .x=0, .y=0 };
-  Point p1 = { .x=0, .y=1 };
-  Point p2 = { .x=0, .y=2 };
-  Point p3 = { .x=1, .y=2 };
+  Point p1 = { .x=0, .y=CELL_SIZE };
+  Point p2 = { .x=0, .y=2 * CELL_SIZE };
+  Point p3 = { .x=CELL_SIZE, .y=2 * CELL_SIZE };
   points[0] = p0;
   points[1] = p1;
   points[2] = p2;
@@ -79,7 +79,7 @@ Figure *new_figure_LNormal(void) {
   figure->points_length = FIG_LNORMAL_SIZE;
   Point *points = new_points_figure_LNormal();
   figure->points = points;
-  figure->center = (Point) { .x=1, .y=1 };
+  figure->center = (Point) { .x=CELL_SIZE, .y=CELL_SIZE };
   return figure;
 }
 
@@ -119,7 +119,7 @@ void draw_figure(SDL_Renderer *renderer, Figure *fig) {
   for(int i=0; i<fig->points_length; i++) {
     Point point = fig->points[i];
     SDL_Rect rect = {
-      .x=point.x*CELL_SIZE, .y=point.y*CELL_SIZE, .w=CELL_SIZE, .h=CELL_SIZE
+      .x=point.x, .y=point.y, .w=CELL_SIZE, .h=CELL_SIZE
     };
     draw_rect(renderer, &rect, &color);
   }
@@ -138,4 +138,12 @@ void rotate_figure(Figure *figure) {
   for (int i = 0; i<figure->points_length; i++) {
     rotate_point(&(figure->points[i]), &(figure->center));
   }
+}
+
+
+void update_figure_fall(Figure *figure) {
+  for(int i=0; i<figure->points_length; i++) {
+    figure->points[i].y+=SPEED;
+  }
+  figure->center.y+=SPEED;
 }

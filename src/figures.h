@@ -20,7 +20,7 @@ typedef enum {
 #define FIG_ZNORMAL_SIZE 4
 #define FIG_STEP_SIZE 4
 
-typedef struct { int x; int y; } Point;
+typedef struct { float x; float y; } Point;
 
 typedef struct {
   FigureType type;
@@ -51,5 +51,7 @@ bool cmp_figures_equal(Figure *fig1, Figure *fig2);
 
 void rotate_point(Point *point, Point *center);
 void rotate_figure(Figure *figure);
+
+void update_figure_fall(Figure *figure);
 
 #endif // FIGURES_H
