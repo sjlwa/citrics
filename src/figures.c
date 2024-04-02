@@ -23,6 +23,26 @@ void free_figure(Figure *figure) {
   free(figure->points);
 }
 
+FigureList *new_figure_list(void) {
+  FigureList *list = malloc(sizeof(FigureList));
+  list->figures = malloc(sizeof(Figure**));
+  list->length = 0;
+  return list;
+}
+
+void figure_list_insert(FigureList *list, Figure*figure) {
+  size_t new_size = sizeof(Figure*) * (list->length + 1);
+  list->figures = realloc(list->figures, new_size);
+  list->figures[list->length++] = figure;
+}
+
+void free_figure_list(FigureList *list) {
+  for (int i=0; i<list->length; i++) {
+    free(list->figures[i]);
+  }
+  free(list);
+}
+
 char *figure_type_str(FigureType type) {
   switch (type) {
     case LNormal: return "LNormal";  break;
@@ -42,6 +62,15 @@ void print_figure(Figure *fig) {
     printf(" (%f, %f) ", point.x, point.y);
   }
   printf("\n");
+}
+
+void print_figure_list(FigureList *list) {
+  printf("Figure [%d of length] {\n", (int) list->length);
+  for (int i=0; i<list->length; i++) {
+    Figure *figure = list->figures[i];
+    print_figure(figure);
+  }
+  printf("}\n");
 }
 
 bool cmp_points_equal(Point *p1, Point *p2) {
@@ -124,6 +153,13 @@ void draw_figure(SDL_Renderer *renderer, Figure *fig) {
     draw_rect(renderer, &rect, &color);
   }
 
+}
+
+void draw_figures_list(SDL_Renderer *renderer, FigureList *list) {
+  for (int i = 0; i<list->length; i++) {
+    Figure *figure = list->figures[i];
+    draw_figure(renderer, figure);
+  }
 }
 
 void rotate_point(Point *point, Point *center) {

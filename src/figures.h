@@ -29,6 +29,13 @@ typedef struct {
   Point center;
 } Figure;
 
+typedef struct {
+  Figure **figures;
+  size_t length;
+} FigureList;
+
+FigureList *new_figure_list(void);
+void figure_list_insert(FigureList *list, Figure*figure);
 
 Figure *new_figure(FigureType type);
 Figure *new_figure_LNormal(void);
@@ -39,13 +46,16 @@ Figure *new_figure_ZInverted(void);
 Figure *new_figure_Step(void);
 
 void free_figure(Figure *figure);
+void free_figure_list(FigureList *list);
 
 Point * new_points_figure_LNormal(void);
 
 void print_figure(Figure *fig);
+void print_figure_list(FigureList *list);
 
 void draw_rect(SDL_Renderer *renderer, SDL_Rect *rect, RGBColor *color);
 void draw_figure(SDL_Renderer *renderer, Figure *fig);
+void draw_figures_list(SDL_Renderer *renderer, FigureList *list);
 
 bool cmp_figures_equal(Figure *fig1, Figure *fig2);
 

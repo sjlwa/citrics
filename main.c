@@ -33,6 +33,7 @@ int main(void) {
       handle_main_event(&event, game);
     }
 
+    check_collisions(game);
     update_game(game);
     draw_game(renderer, game);
   }
